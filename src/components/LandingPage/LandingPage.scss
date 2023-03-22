@@ -1,0 +1,53 @@
+@import "../../scssfunctions/styles.scss";
+ .slide-image {
+     @include adjustMeasures(100%, 100%);
+     border: 1px solid blue;
+    background:no-repeat center fixed;
+        -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            position: absolute
+                
+ }
+ .dots-slice {
+     @include adjustPosition(flex, center, center, absolute);
+     bottom: 40px;
+     left: 50%;
+     transform: translateX(-50%);
+     margin: 10px 0;
+ }
+
+ .dot {
+     @include adjustMeasures(10px, 10px);
+     margin: 0 5px;
+     border-radius: 50%;
+     background-color: #171616;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+ }
+
+ .dotClicked {
+     background-color: #f2f2f2;
+
+ }
+
+ .btnHome{
+    @include adjustPosition(flex, center, center, absolute);
+        background-color: rgba(255, 255, 255, 0.248);
+        left: 50%;
+        top: 50%;
+        color: #924040;
+        padding: 5px 10px;
+        border: 2px solid #fff;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+ }
+ .btnHome h1{
+    color: #fffefe;
+ }
+ .Link {
+     text-decoration: none;
+ }

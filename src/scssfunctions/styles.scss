@@ -1,0 +1,11 @@
+@mixin adjustMeasures($width, $height) {
+    width: $width;
+    height: $height;
+}
+
+@mixin adjustPosition($display, $justifyContent, $alignItems, $position) {
+    display: $display;
+    justify-content: $justifyContent;
+    align-items: $alignItems;
+    position: $position;
+}
