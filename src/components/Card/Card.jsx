@@ -19,19 +19,23 @@ const Card = ({
           <span className="label">Height:</span>
           {min_height} - {max_height} cm
         </div>
-        <div>
+        <div className="detail">
           <span className="label">Weight:</span>
           {min_weight} - {max_weight} kg
         </div>
         <div className="detail">
-          <span className="label">Lifespan:</span>
-          {min_lifespan} - {max_lifespan} years
+          <span className="label">Lifespan:</span> {min_lifespan} -{" "}
+          {max_lifespan} years
         </div>
         <div className="detail">
           <span className="label">Temperaments:</span>
           {typeof temperaments === "string"
             ? temperaments
-            : temperaments.map((temperament) => temperament.name).join(", ")}
+            : temperaments
+                .map((temperament) =>
+                  temperament.name ? temperament.name : temperament
+                )
+                .join(", ")}
         </div>
       </div>
     </div>

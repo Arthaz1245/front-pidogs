@@ -1,6 +1,7 @@
 import CardsBreeds from "../CardsBreeds/CardsBreeds";
+import Pagination from "../Pagination/Pagination";
 import "./Home.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dogsFetch } from "../../features/breedsSlice";
 const Home = () => {
@@ -8,6 +9,11 @@ const Home = () => {
   const breeds = useSelector((state) => state.breeds.breeds);
   const breedsStatus = useSelector((state) => state.breeds.status);
   const error = useSelector((state) => state.breeds.error);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage, setPostPerPage] = useState(6);
+  const lastPostIndex = currentPage * postPerPage;
+  const firstPostIndex = lastPostIndex - postPerPage;
+  const currentPosts = breeds.slice(firstPostIndex, lastPostIndex);
 
   useEffect(() => {
     if (breedsStatus === "idle") {
@@ -24,7 +30,14 @@ const Home = () => {
   return (
     <div>
       <div className="breedCards">
-        <CardsBreeds breeds={breeds} />
+        <CardsBreeds breeds={currentPosts} />
+        <Pagination
+          totalPosts={breeds.length}
+          postPerPage={postPerPage}
+          setPostPerpage={setPostPerPage}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );

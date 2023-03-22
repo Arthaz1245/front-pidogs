@@ -1,4 +1,4 @@
-import { useForm, useController } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,19 +9,15 @@ import { addNewBreed } from "../../features/breedsSlice";
 const CreateBreed = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [errorMin, setErrorMin] = useState("");
   const breedTemperaments = useSelector(
     (state) => state.temperaments.temperaments
   );
   const temperamentsStatus = useSelector((state) => state.temperaments.status);
   const error = useSelector((state) => state.temperaments.error);
-  const onSelectChange = (option) => {
-    field.onChange(option.value);
-  };
+
   const {
     register,
-    watch,
-    control,
+    // watch,
     handleSubmit,
     formState: { errors },
     reset,
@@ -38,30 +34,25 @@ const CreateBreed = () => {
       temperaments: [],
     },
   });
-  const { field } = useController({ name: "temperaments", control });
-  const onSubmit = async (data) => {
-    if (parseInt(data.min_height) > parseInt(data.max_height)) {
-      setErrorMin("max_height", {
-        type: "manual",
-        message: "Max height should be greater than or equal to min height",
-      });
-      return;
-    }
-    if (parseInt(data.min_lifespan) > parseInt(data.max_lifespan)) {
-      setErrorMin("max_lifespan", {
-        type: "manual",
-        message: "Max height should be greater than or equal to min height",
-      });
-      return;
-    }
-    if (parseInt(data.min_weight) > parseInt(data.max_weight)) {
-      setErrorMin("max_weight", {
-        type: "manual",
-        message: "Max height should be greater than or equal to min height",
-      });
-      return;
-    }
+  const [input, setInput] = useState({
+    temperaments: [],
+  });
+  const handleSelectTemperaments = (e) => {
+    setInput({
+      ...input,
+      temperaments: [...new Set([...input.temperaments, e.target.value])],
+    });
+  };
+  const handleDelete = (e) => {
+    setInput({
+      ...input,
+      temperaments: input.temperaments.filter((temp) => temp !== e),
+    });
+  };
 
+  const onSubmit = async (data) => {
+    data.temperaments = input.temperaments;
+    console.log(data.temperaments);
     dispatch(addNewBreed(data));
     alert(JSON.stringify(data));
     await swal("Breed created successfully");
@@ -79,7 +70,7 @@ const CreateBreed = () => {
     });
     navigate("/home");
   };
-  console.log(watch());
+  // console.log(watch());
 
   useEffect(() => {
     if (temperamentsStatus === "idle") {
@@ -105,7 +96,7 @@ const CreateBreed = () => {
           Name :
         </label>
         <input
-          {...register("name", { required: true, maxLength: 50 })}
+          {...register("name", { required: true, maxLength: 30, minLength: 3 })}
           name="name"
           id="name"
           type="text"
@@ -115,7 +106,7 @@ const CreateBreed = () => {
         {errors.name && (
           <span>
             This field is required and should be a number with maximum length of
-            50
+            30 and a minimun of 3
           </span>
         )}
         <label htmlFor="" className="labelForm">
@@ -164,7 +155,6 @@ const CreateBreed = () => {
             3
           </span>
         )}
-        {errorMin && <p style={{ color: "red" }}>{errorMin}</p>}
         <label htmlFor="" className="labelForm">
           Min Weight:{" "}
         </label>
@@ -199,7 +189,6 @@ const CreateBreed = () => {
             3
           </span>
         )}
-        {errorMin && <p style={{ color: "red" }}>{errorMin}</p>}
         <label htmlFor="" className="labelForm">
           Min Lifespan:{" "}
         </label>
@@ -234,15 +223,8 @@ const CreateBreed = () => {
             3
           </span>
         )}
-        {errorMin && <p style={{ color: "red" }}>{errorMin}</p>}
         <label className="labelForm">Temperament: </label>
-        <select
-          onChange={onSelectChange}
-          {...register("temperaments", { required: true })}
-          className="SelectTemp"
-          id="temperaments "
-          value={field.value}
-        >
+        <select onChange={(e) => handleSelectTemperaments(e)}>
           <option>Select a temperament</option>
           {breedTemperaments?.map((temperament, index) => {
             return (
@@ -252,6 +234,26 @@ const CreateBreed = () => {
             );
           })}
         </select>
+
+        <div className="Divtemperaments">
+          {
+            input.temperaments.map((temperament) => {
+              return (
+                <div key={temperament} className="temperamentsSel">
+                  <button
+                    onClick={() => {
+                      handleDelete(temperament);
+                    }}
+                    className="DeleteTemperbtn"
+                  >
+                    x{temperament}
+                  </button>
+                </div>
+              );
+            }) //para poder ver que fui seleccionando
+          }
+          {input.temperaments}
+        </div>
 
         <button type="submit" className="bntSubmit">
           Create
