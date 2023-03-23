@@ -37,9 +37,10 @@ const Card = ({
                 {typeof temperaments === "string"
                   ? temperaments
                   : temperaments
-                      .map((temperament) =>
+                      .map((temperament, k) =>
                         temperament.name ? temperament.name : temperament
                       )
+
                       .join(", ")}
               </p>
             </div>

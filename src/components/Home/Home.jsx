@@ -1,6 +1,7 @@
 import CardsBreeds from "../CardsBreeds/CardsBreeds";
 import Pagination from "../Pagination/Pagination";
 import "./Home.scss";
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dogsFetch } from "../../features/breedsSlice";

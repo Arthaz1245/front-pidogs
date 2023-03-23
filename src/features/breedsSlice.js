@@ -6,7 +6,7 @@ const DOGS_URL = "http://localhost:5000/breeds";
 const initialState = {
   breeds: [],
   allBreeds: [],
-  breedsById: {},
+  breedsById: [],
   status: "idle",
   error: null,
 };
@@ -42,7 +42,11 @@ export const addNewBreed = createAsyncThunk(
 const breedsSlice = createSlice({
   name: "breeds",
   initialState,
-  reducers: {},
+  reducers: {
+    cleanBreeds: (state, action) => {
+      state.allBreeds = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(dogsFetch.pending, (state, action) => {
@@ -82,4 +86,5 @@ const breedsSlice = createSlice({
   },
 });
 
+export const { cleanBreeds } = breedsSlice.actions;
 export default breedsSlice.reducer;

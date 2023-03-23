@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { temperamentsFetch } from "../../features/TemperamentsSlice";
-import { addNewBreed } from "../../features/breedsSlice";
+import { addNewBreed, cleanBreeds } from "../../features/breedsSlice";
 
 const CreateBreed = () => {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ const CreateBreed = () => {
     (state) => state.temperaments.temperaments
   );
   const temperamentsStatus = useSelector((state) => state.temperaments.status);
+  const breeds = useSelector((state) => state.breeds.breeds);
   const error = useSelector((state) => state.temperaments.error);
 
   const {
@@ -52,23 +53,29 @@ const CreateBreed = () => {
 
   const onSubmit = async (data) => {
     data.temperaments = input.temperaments;
-    console.log(data.temperaments);
-    dispatch(addNewBreed(data));
-    alert(JSON.stringify(data));
-    await swal("Breed created successfully");
+    const nameFiltered = breeds.filter((breed) => breed.name === data.name);
 
-    reset({
-      name: "",
-      min_height: "",
-      max_height: "",
-      min_weight: "",
-      max_weight: "",
-      min_lifespan: "",
-      max_lifespan: "",
-      image: "",
-      temperaments: [],
-    });
-    navigate("/home");
+    if (nameFiltered.length) {
+      await swal("Error, cannot be created, name already exist", "error");
+    } else {
+      dispatch(addNewBreed(data));
+      alert(JSON.stringify(data));
+      await swal("Success creation");
+
+      reset({
+        name: "",
+        min_height: "",
+        max_height: "",
+        min_weight: "",
+        max_weight: "",
+        min_lifespan: "",
+        max_lifespan: "",
+        image: "",
+        temperaments: [],
+      });
+      navigate("/home");
+      dispatch(cleanBreeds(dispatch));
+    }
   };
   // console.log(watch());
 
