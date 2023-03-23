@@ -38,13 +38,31 @@ export const addNewBreed = createAsyncThunk(
     return response.data;
   }
 );
+export const deleteBreed = createAsyncThunk(
+  "breeds/deleteBreed",
+  async (id) => {
+    try {
+      const response = await axios.delete(`${DOGS_URL}/${id}`);
+
+      return response.dat;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
 
 const breedsSlice = createSlice({
   name: "breeds",
   initialState,
   reducers: {
     cleanBreeds: (state, action) => {
-      state.allBreeds = action.payload;
+      return {
+        ...state,
+        allBreeds: action.payload,
+      };
+    },
+    cleanBreedDetails: (state, action) => {
+      state.breedsById = action.payload;
     },
   },
   extraReducers(builder) {
@@ -82,9 +100,34 @@ const breedsSlice = createSlice({
       .addCase(addNewBreed.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(deleteBreed.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(deleteBreed.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        if (!action.payload?.id) {
+          console.log("Delete could not complete");
+          console.log(action.payload);
+          return;
+        }
+        const { id } = action.payload;
+
+        const allBreeds2 = state.allBreeds;
+        const deleteBreed = allBreeds2.filter((breed) => breed.id !== id);
+        return {
+          ...state,
+          breeds: deleteBreed,
+        };
+        // state.breeds = deleteBreed;
+        // state.allBreeds = deleteBreed;
+      })
+      .addCase(deleteBreed.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
   },
 });
 
-export const { cleanBreeds } = breedsSlice.actions;
+export const { cleanBreeds, cleanBreedDetails } = breedsSlice.actions;
 export default breedsSlice.reducer;
