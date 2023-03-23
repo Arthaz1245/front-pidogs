@@ -1,4 +1,5 @@
-const Paginated = ({
+import "./Pagination.scss";
+const Pagination = ({
   totalPosts,
   postPerPage,
   setCurrentPage,
@@ -36,7 +37,7 @@ const Paginated = ({
           <button
             onClick={() => setCurrentPage(page)}
             key={index}
-            className={page === currentPage ? "active" : ""}
+            className={page === currentPage ? "active" : "noactive"}
           >
             {page}
           </button>
@@ -61,4 +62,4 @@ const Paginated = ({
   );
 };
 
-export default Paginated;
+export default Pagination;
