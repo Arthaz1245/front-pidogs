@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { temperamentsFetch } from "../../features/TemperamentsSlice";
-import { addNewBreed, cleanBreeds } from "../../features/breedsSlice";
+import { addNewBreed } from "../../features/breedsSlice";
 
 const CreateBreed = () => {
   const dispatch = useDispatch();
@@ -74,10 +74,8 @@ const CreateBreed = () => {
         temperaments: [],
       });
       navigate("/home");
-      dispatch(cleanBreeds(dispatch));
     }
   };
-  // console.log(watch());
 
   useEffect(() => {
     if (temperamentsStatus === "idle") {

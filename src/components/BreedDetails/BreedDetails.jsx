@@ -2,11 +2,7 @@ import { dogsFetchById, dogsFetch } from "../../features/breedsSlice";
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  cleanBreeds,
-  cleanBreedDetails,
-  deleteBreed,
-} from "../../features/breedsSlice";
+import { cleanBreedDetails, deleteBreed } from "../../features/breedsSlice";
 
 const BreedDetails = () => {
   const { id } = useParams();
@@ -18,12 +14,12 @@ const BreedDetails = () => {
     dispatch(dogsFetchById(id));
 
     return () => {
-      dispatch(cleanBreedDetails(id), cleanBreeds());
+      dispatch(cleanBreedDetails(id));
     };
   }, [dispatch, id]);
   const handleDelete = (e) => {
     e.preventDefault();
-    dispatch(cleanBreeds());
+    //dispatch(cleanBreeds());
     dispatch(deleteBreed(breedsById._id));
     navigate("/home");
     dispatch(dogsFetch());

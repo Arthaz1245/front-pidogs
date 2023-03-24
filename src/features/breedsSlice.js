@@ -103,11 +103,7 @@ const breedsSlice = createSlice({
       })
       .addCase(deleteBreed.fulfilled, (state, action) => {
         state.status = "succeeded";
-        if (!action.payload?.id) {
-          console.log("Delete could not complete");
-          console.log(action.payload);
-          return;
-        }
+
         const { id } = action.payload;
 
         const allBreeds2 = state.allBreeds;
