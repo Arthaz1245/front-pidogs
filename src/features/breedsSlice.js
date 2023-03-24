@@ -50,6 +50,17 @@ export const deleteBreed = createAsyncThunk(
     }
   }
 );
+export const searchBreed = createAsyncThunk(
+  "breeds/searchBreed",
+  async (name) => {
+    try {
+      const response = await axios.get(`${DOGS_URL}?name=${name}`);
+      return response.data;
+    } catch (error) {
+      return err.message;
+    }
+  }
+);
 
 const breedsSlice = createSlice({
   name: "breeds",
@@ -113,6 +124,16 @@ const breedsSlice = createSlice({
       .addCase(deleteBreed.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(searchBreed.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(searchBreed.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.breeds = action.payload;
+      })
+      .addCase(searchBreed.rejected, (state, action) => {
+        state.status = "failed";
       });
   },
 });
