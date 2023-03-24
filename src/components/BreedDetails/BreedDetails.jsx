@@ -18,7 +18,7 @@ const BreedDetails = () => {
     dispatch(dogsFetchById(id));
 
     return () => {
-      dispatch(cleanBreedDetails(dispatch));
+      dispatch(cleanBreedDetails(id));
     };
   }, [dispatch, id]);
   const handleDelete = (e) => {

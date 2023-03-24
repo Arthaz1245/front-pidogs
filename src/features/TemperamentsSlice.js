@@ -35,7 +35,7 @@ const temperamentsSlice = createSlice({
         state.temperaments = action.payload;
       })
       .addCase(temperamentsFetch.rejected, (state, action) => {
-        state.status = "faiiled";
+        state.status = "failed";
         state.error = action.error.message;
       });
   },

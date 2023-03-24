@@ -44,7 +44,7 @@ export const deleteBreed = createAsyncThunk(
     try {
       const response = await axios.delete(`${DOGS_URL}/${id}`);
 
-      return response.dat;
+      return response.data;
     } catch (err) {
       return err.message;
     }
@@ -56,10 +56,7 @@ const breedsSlice = createSlice({
   initialState,
   reducers: {
     cleanBreeds: (state, action) => {
-      return {
-        ...state,
-        allBreeds: action.payload,
-      };
+      state.allBreeds = action.payload;
     },
     cleanBreedDetails: (state, action) => {
       state.breedsById = action.payload;
