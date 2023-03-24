@@ -18,12 +18,12 @@ const BreedDetails = () => {
     dispatch(dogsFetchById(id));
 
     return () => {
-      dispatch(cleanBreedDetails(id));
+      dispatch(cleanBreedDetails(id), cleanBreeds());
     };
   }, [dispatch, id]);
   const handleDelete = (e) => {
     e.preventDefault();
-    dispatch(cleanBreeds(dispatch));
+    dispatch(cleanBreeds());
     dispatch(deleteBreed(breedsById._id));
     navigate("/home");
     dispatch(dogsFetch());

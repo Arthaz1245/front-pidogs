@@ -56,10 +56,10 @@ const breedsSlice = createSlice({
   initialState,
   reducers: {
     cleanBreeds: (state, action) => {
-      state.allBreeds = action.payload;
+      state.allBreeds = [];
     },
     cleanBreedDetails: (state, action) => {
-      state.breedsById = action.payload;
+      state.breedsById = [];
     },
   },
   extraReducers(builder) {
@@ -112,12 +112,7 @@ const breedsSlice = createSlice({
 
         const allBreeds2 = state.allBreeds;
         const deleteBreed = allBreeds2.filter((breed) => breed.id !== id);
-        return {
-          ...state,
-          breeds: deleteBreed,
-        };
-        // state.breeds = deleteBreed;
-        // state.allBreeds = deleteBreed;
+        state.breeds = deleteBreed;
       })
       .addCase(deleteBreed.rejected, (state, action) => {
         state.status = "failed";
