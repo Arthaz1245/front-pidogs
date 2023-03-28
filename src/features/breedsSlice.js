@@ -62,6 +62,32 @@ export const searchBreed = createAsyncThunk(
     }
   }
 );
+export const filterBreedsCreated = createAsyncThunk(
+  "breeds/filterCreatedBreed",
+  async (created) => {
+    try {
+      const response = await axios.get(
+        `${DOGS_URL}/filterCreated?created=${created}`
+      );
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  }
+);
+export const filterBreedsByTemperament = createAsyncThunk(
+  "breeds/filterBreedsByTemperament",
+  async (temperament) => {
+    try {
+      const response = await axios.get(
+        `${DOGS_URL}/filterTemperament?temperament=${temperament}`
+      );
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  }
+);
 
 const breedsSlice = createSlice({
   name: "breeds",
@@ -76,30 +102,32 @@ const breedsSlice = createSlice({
     cleanSearchBreed: (state, action) => {
       state.breedsByName = [];
     },
-    filterBreedsByTemperament: (state, action) => {
-      const allBreeds = state.allBreeds;
-      const filteredBreeds =
-        action.payload === "all"
-          ? allBreeds
-          : allBreeds.filter((breed) => {
-              if (typeof breed.temperaments === "string")
-                return breed.temperaments.includes(action.payload);
-              if (Array.isArray(breed.temperaments)) {
-                let temps = breed.temperaments.map((e) =>
-                  e.name ? e.name : e
-                );
-                return temps.includes(action.payload);
+    orderAlphabetically: (state, action) => {
+      let orderAlphabetical = state.breeds;
+      orderAlphabetical =
+        action.payload === "asc"
+          ? [...state.breeds].sort((a, b) => {
+              if (a.name > b.name) {
+                return 1;
               }
-              return true;
+              if (b.name > a.name) {
+                return -1;
+              }
+              return 0;
+            })
+          : [...state.breeds].sort((a, b) => {
+              if (a.name > b.name) {
+                return -1;
+              }
+              if (b.name > a.name) {
+                return 1;
+              }
+              return 0;
             });
-
-      return {
-        ...state,
-        breeds: filteredBreeds,
-      };
+      state.breeds = orderAlphabetical;
     },
     orderByWeight: (state, action) => {
-      const orderByWeight =
+      const orderWeight =
         action.payload === "asc"
           ? state.breeds.sort(function (a, b) {
               return parseInt(a.min_weight) - parseInt(b.max_weight);
@@ -107,52 +135,7 @@ const breedsSlice = createSlice({
           : state.breeds.sort(function (a, b) {
               return parseInt(b.max_weight) - parseInt(a.min_weight);
             });
-      return {
-        ...state,
-        breeds: orderByWeight,
-      };
-    },
-    orderAlphabetically: (state, action) => {
-      let orderAlphabetical = [...state.breeds];
-      orderAlphabetical =
-        action.payload === "asc"
-          ? state.breeds.sort((a, b) => {
-              if (a.name > b.name) {
-                return 1;
-              }
-              if (b.name > a.name) {
-                return -1;
-              }
-              return 0;
-            })
-          : state.breeds.sort((a, b) => {
-              if (a.name > b.name) {
-                return -1;
-              }
-              if (b.name > a.name) {
-                return 1;
-              }
-              return 0;
-            });
-      return { ...state, breeds: orderAlphabetical };
-    },
-    filterBreedsCreated: (state, action) => {
-      let copy = state.allBreeds;
-      let createdFiltered;
-      if (action.payload === "created") {
-        let searchCreated = copy.filter((e) => e.createdInDB);
-
-        createdFiltered = searchCreated;
-        if (!createdFiltered.length) return "Ther aren not created";
-      } else if (action.payload === "api") {
-        createdFiltered = copy.filter((e) => !e.createdInDB);
-      } else {
-        createdFiltered = copy;
-      }
-      return {
-        ...state,
-        breeds: createdFiltered,
-      };
+      state.breeds = orderWeight;
     },
   },
   extraReducers(builder) {
@@ -216,6 +199,26 @@ const breedsSlice = createSlice({
       })
       .addCase(searchBreed.rejected, (state, action) => {
         state.status = "failed";
+      })
+      .addCase(filterBreedsCreated.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(filterBreedsCreated.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.breeds = action.payload;
+      })
+      .addCase(filterBreedsCreated.rejected, (state, action) => {
+        state.status = "failed";
+      })
+      .addCase(filterBreedsByTemperament.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(filterBreedsByTemperament.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.breeds = action.payload;
+      })
+      .addCase(filterBreedsByTemperament.rejected, (state, action) => {
+        state.status = "failed";
       });
   },
 });
@@ -223,8 +226,6 @@ const breedsSlice = createSlice({
 export const {
   cleanBreeds,
   cleanBreedDetails,
-  filterBreedsByTemperament,
-  filterBreedsCreated,
   cleanSearchBreed,
   orderByWeight,
   orderAlphabetically,

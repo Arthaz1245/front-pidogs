@@ -1,14 +1,21 @@
 import {
-  filterBreedsByTemperament,
   orderAlphabetically,
   filterBreedsCreated,
+  filterBreedsByTemperament,
   orderByWeight,
 } from "../../features/breedsSlice";
-
+import { temperamentsFetch } from "../../features/TemperamentsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 const Filters = ({ setCurrentPage, setOrder, order }) => {
   const dispatch = useDispatch();
-  const allTemperaments = useSelector((state) => state.breeds);
+  const allTemperaments = useSelector(
+    (state) => state.temperaments.temperaments
+  );
+  const temperamentsStatus = useSelector((state) => state.temperaments.status);
+
+  const error = useSelector((state) => state.temperaments.error);
+
   const handleOrderBreedsAlphabetically = (e) => {
     e.preventDefault();
     dispatch(orderAlphabetically(e.target.value));
@@ -32,6 +39,18 @@ const Filters = ({ setCurrentPage, setOrder, order }) => {
     dispatch(filterBreedsCreated(e.target.value));
     setCurrentPage(1);
   };
+  useEffect(() => {
+    if (temperamentsStatus === "idle") {
+      dispatch(temperamentsFetch());
+    }
+  }, [temperamentsStatus, dispatch]);
+  if (temperamentsStatus === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (temperamentsStatus === "failed") {
+    return <div>{error}</div>;
+  }
   return (
     <div>
       <select
@@ -62,6 +81,7 @@ const Filters = ({ setCurrentPage, setOrder, order }) => {
           max weight
         </option>
       </select>
+
       <select
         className="selectFilter"
         onChange={(e) => {
@@ -74,12 +94,12 @@ const Filters = ({ setCurrentPage, setOrder, order }) => {
         <option value="all" className="selectFilter">
           all
         </option>
-        {allTemperaments?.map((temperament) => {
+        {allTemperaments?.map((temperament, index) => {
           return (
             <option
               className="selectFilter"
               value={temperament.name}
-              key={temperament.id}
+              key={index}
             >
               {temperament.name.toLowerCase()}
             </option>
