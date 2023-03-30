@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { cleanBreedDetails, deleteBreed } from "../../features/breedsSlice";
-
+import "./BreedDetails.scss";
 const BreedDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -32,9 +32,8 @@ const BreedDetails = () => {
             <div className="cardDetail">
               <img src={breedsById.image} className="cardImage" alt="" />
               <h2 className="titleNameBreed">{breedsById.name}</h2>
-
+              <h5 className="h5tem">Temperaments</h5>
               <div className="allTemps">
-                <h5 className="h5tem">Temperaments</h5>
                 {breedsById.temperaments?.map((t, k) => {
                   return (
                     <div key={k}>
@@ -48,12 +47,48 @@ const BreedDetails = () => {
                 })}
               </div>
               <div className="table2">
-                <h5>min_height: {breedsById.min_height}</h5>
-                <h5>max_height: {breedsById.max_height}</h5>
-                <h5>min_weight: {breedsById.min_weight}</h5>
-                <h5>max_weight: {breedsById.max_weight}</h5>
-                <h5>min_lifespan: {breedsById.min_lifespan}</h5>
-                <h5>max_lifespan: {breedsById.max_lifespan}</h5>
+                <div className="rowt">
+                  <h5 style={{ color: "#AC3B61" }}>
+                    min_height:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.min_height}
+                    </span>
+                  </h5>
+                  <h5 style={{ color: "#AC3B61" }}>
+                    max_height:{"  "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.max_height}
+                    </span>
+                  </h5>
+                </div>
+                <div className="rowt">
+                  <h5 style={{ color: "#AC3B61" }}>
+                    min_weight:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.min_weight}
+                    </span>
+                  </h5>
+                  <h5 style={{ color: "#AC3B61" }}>
+                    max_weight:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.max_weight}
+                    </span>
+                  </h5>
+                </div>
+                <div className="rowt">
+                  <h5 style={{ color: "#AC3B61" }}>
+                    min_lifespan:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.min_lifespan}
+                    </span>
+                  </h5>
+                  <h5 style={{ color: "#AC3B61" }}>
+                    max_lifespan:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.max_lifespan}
+                    </span>
+                  </h5>
+                </div>
               </div>
               <div>
                 <button onClick={(e) => handleDelete(e)}>delete</button>
@@ -70,29 +105,74 @@ const BreedDetails = () => {
           {Object.values(breedsById).length !== 0 ? (
             <div className="cardDetail">
               <img src={breedsById.image} className="cardImage" alt="" />
-              <h2 className="titleNameBreed">{breedsById.name}</h2>
+              <div className="titlediv">
+                <h2 className="titleNameBreed">{breedsById.name}</h2>
+              </div>
+              <div>
+                <h5 className="h5tem">Temperaments</h5>
+              </div>
 
               <div className="allTemps">
-                <h5 className="h5tem">Temperaments</h5>
                 {breedsById.temperaments?.map((t, k) => {
                   return (
                     <div key={k}>
                       {t.name ? (
-                        <p className="eachTemperament">{t.name}</p>
+                        <div className="eachTempDiv">
+                          <p className="eachTemperament">{t.name}</p>
+                        </div>
                       ) : (
-                        <p className="eachTemperament">{t}</p>
+                        <div className="eachTempDiv">
+                          <p className="eachTemperament">{t}</p>
+                        </div>
                       )}
                     </div>
                   );
                 })}
               </div>
               <div className="table2">
-                <h5>min_height: {breedsById.min_height}</h5>
-                <h5>max_height: {breedsById.max_height}</h5>
-                <h5>min_weight: {breedsById.min_weight}</h5>
-                <h5>max_weight: {breedsById.max_weight}</h5>
-                <h5>min_lifespan: {breedsById.min_lifespan}</h5>
-                <h5>max_lifespan: {breedsById.max_lifespan}</h5>
+                <div className="rowt">
+                  <h5 style={{ color: "#AC3B61" }}>
+                    min_height:
+                    <span style={{ color: "#123C69" }}>
+                      {" "}
+                      {breedsById.min_height}
+                    </span>
+                  </h5>
+                  <h5 style={{ color: "#AC3B61" }}>
+                    max_height:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.max_height}
+                    </span>
+                  </h5>
+                </div>
+                <div className="rowt">
+                  <h5 style={{ color: "#AC3B61" }}>
+                    min_weight:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.min_weight}{" "}
+                    </span>
+                  </h5>
+                  <h5 style={{ color: "#AC3B61" }}>
+                    max_weight:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.max_weight}
+                    </span>
+                  </h5>
+                </div>
+                <div className="rowt">
+                  <h5 style={{ color: "#AC3B61" }}>
+                    min_lifespan:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.min_lifespan}
+                    </span>
+                  </h5>
+                  <h5 style={{ color: "#AC3B61" }}>
+                    max_lifespan:{" "}
+                    <span style={{ color: "#123C69" }}>
+                      {breedsById.max_lifespan}
+                    </span>
+                  </h5>
+                </div>
               </div>
             </div>
           ) : (

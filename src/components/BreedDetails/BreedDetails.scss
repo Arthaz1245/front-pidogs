@@ -1,0 +1,71 @@
+@import "../../scssfunctions/styles.scss";
+.breedDetail{
+
+ flex-direction: column;
+ align-items: center;
+ padding-left:40%;
+ padding-top: 5%
+}
+.cardDetail{
+    background-color: #123C69;
+    border-radius: 25px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    margin: 20px;
+    padding: 20px;
+}
+.container {
+    @include adjustMeasures(50%, 50%);
+    @include adjustPosition(flex, center, center, relative);
+}
+
+.cardImage{
+    @include adjustMeasures(100%, 40%);
+    display: block;
+        margin: auto;
+        border-radius: 10px;
+}
+.titlediv{
+    background-color: #EDC7B7;
+    flex-direction: column;
+    @include adjustMeasures(100%, 10%);
+    padding-left: 5px;
+    padding-right:5px;
+    border-radius: 10px;
+}
+.titleNameBreed{
+    text-align: center;
+    color: #AC3B61;
+    font-weight: 500;
+}
+.allTemps{
+    @include adjustPosition(flex, center, center, relative);
+    flex-direction: row;
+}
+.eachTempDiv{
+    margin: 5px;
+    padding-left: 1px;
+    padding-right: 1px;
+    border-radius: 10px;
+    background-color: #BAB2B5;
+}
+.eachTemperament{
+    color: #AC3B61;
+}
+.table2{
+    background-color:#EDC7B7;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.rowt{
+display: flex;
+flex-direction: row;
+ justify-content: space-around;
+
+}
+h5{
+padding-left: 1px;
+    padding-right: 1px;
+}
