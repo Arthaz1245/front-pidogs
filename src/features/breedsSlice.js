@@ -55,7 +55,6 @@ export const searchBreed = createAsyncThunk(
   async (name) => {
     try {
       const response = await axios.get(`${DOGS_URL}?name=${name}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return error.message;
@@ -69,6 +68,7 @@ export const filterBreedsCreated = createAsyncThunk(
       const response = await axios.get(
         `${DOGS_URL}/filterCreated?created=${created}`
       );
+
       return response.data;
     } catch (error) {
       return error.message;
@@ -85,6 +85,18 @@ export const filterBreedsByTemperament = createAsyncThunk(
       return response.data;
     } catch (error) {
       return error.message;
+    }
+  }
+);
+export const updateBreed = createAsyncThunk(
+  "breeds/updateBreed",
+  async (id, initialState) => {
+    try {
+      const response = await axios.put(`${DOGS_URL}/${id}`, initialState);
+
+      return response.data;
+    } catch (err) {
+      return err.message;
     }
   }
 );
@@ -219,6 +231,17 @@ const breedsSlice = createSlice({
       })
       .addCase(filterBreedsByTemperament.rejected, (state, action) => {
         state.status = "failed";
+      })
+      .addCase(updateBreed.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(updateBreed.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(updateBreed.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.breeds = action.payload;
       });
   },
 });

@@ -1,11 +1,13 @@
 import { useDispatch } from "react-redux";
+import "./SearchBar.scss";
 import { useState } from "react";
+import swal from "sweetalert";
 import {
   // cleanBreeds,
   dogsFetch,
   searchBreed,
 } from "../../features/breedsSlice";
-const SearchBar = ({ setCurrentPage }) => {
+const SearchBar = ({ setCurrentPage, currentBreeds }) => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
 
@@ -13,12 +15,16 @@ const SearchBar = ({ setCurrentPage }) => {
     e.preventDefault();
     setName(e.target.value);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // dispatch(cleanBreeds());
-    dispatch(searchBreed(name));
-
-    setName("");
+    const filterName = currentBreeds.filter((b) => b.name === name);
+    if (!filterName.length) {
+      await swal("Error, the name doesn't exist", "error");
+    } else {
+      dispatch(searchBreed(name));
+      setName("");
+    }
   };
   const handleReload = (e) => {
     e.preventDefault();
@@ -26,7 +32,7 @@ const SearchBar = ({ setCurrentPage }) => {
     setCurrentPage(1);
   };
   return (
-    <div>
+    <div className="search-bar-container">
       {" "}
       <form
         className="form-search"
@@ -37,17 +43,22 @@ const SearchBar = ({ setCurrentPage }) => {
         <input
           type="text"
           placeholder="Search breed..."
-          className="searchBar"
+          className="search-bar-input"
           onChange={(e) => {
             handleInputChange(e);
           }}
           value={name}
         />
-        <button type="submit" className="btnSubmit">
+        <button type="submit" className="search-bar-btn-submit">
           Search
         </button>
       </form>
-      <button onClick={(e) => handleReload(e)}>Reload</button>
+      <button
+        onClick={(e) => handleReload(e)}
+        className="search-bar-btn-reload"
+      >
+        Reload
+      </button>
     </div>
   );
 };

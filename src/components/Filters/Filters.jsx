@@ -4,16 +4,18 @@ import {
   filterBreedsByTemperament,
   orderByWeight,
 } from "../../features/breedsSlice";
+import "./Filters.scss";
+import swal from "sweetalert";
 import { temperamentsFetch } from "../../features/TemperamentsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-const Filters = ({ setCurrentPage, setOrder, order }) => {
+const Filters = ({ setCurrentPage, setOrder, order, currentBreeds }) => {
   const dispatch = useDispatch();
   const allTemperaments = useSelector(
     (state) => state.temperaments.temperaments
   );
-  const temperamentsStatus = useSelector((state) => state.temperaments.status);
 
+  const temperamentsStatus = useSelector((state) => state.temperaments.status);
   const error = useSelector((state) => state.temperaments.error);
 
   const handleOrderBreedsAlphabetically = (e) => {
@@ -34,10 +36,21 @@ const Filters = ({ setCurrentPage, setOrder, order }) => {
     dispatch(filterBreedsByTemperament(e.target.value));
     setCurrentPage(1);
   };
-  const handleFilterBreedsCreated = (e) => {
+  const handleFilterBreedsCreated = async (e) => {
     e.preventDefault();
-    dispatch(filterBreedsCreated(e.target.value));
-    setCurrentPage(1);
+    const filterCreated = currentBreeds.filter((b) => b.createdInDB);
+    console.log(e.target.value);
+    if (e.target.value === " created") {
+      if (!filterCreated.length) {
+        await swal("Error, there are not created");
+      } else {
+        dispatch(filterBreedsCreated(e.target.value));
+        setCurrentPage(1);
+      }
+    } else {
+      dispatch(filterBreedsCreated(e.target.value));
+      setCurrentPage(1);
+    }
   };
   useEffect(() => {
     if (temperamentsStatus === "idle") {
@@ -52,7 +65,7 @@ const Filters = ({ setCurrentPage, setOrder, order }) => {
     return <div>{error}</div>;
   }
   return (
-    <div>
+    <div className="containerFilter">
       <select
         onChange={(e) => {
           handleOrderBreedsAlphabetically(e);

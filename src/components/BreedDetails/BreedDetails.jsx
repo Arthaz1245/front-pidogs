@@ -1,6 +1,6 @@
 import { dogsFetchById, dogsFetch } from "../../features/breedsSlice";
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { cleanBreedDetails, deleteBreed } from "../../features/breedsSlice";
 import "./BreedDetails.scss";
@@ -24,6 +24,7 @@ const BreedDetails = () => {
     navigate("/home");
     dispatch(dogsFetch());
   };
+
   return (
     <div className="breedDetail">
       {breedsById.createdInDB ? (
@@ -31,16 +32,24 @@ const BreedDetails = () => {
           {Object.values(breedsById).length !== 0 ? (
             <div className="cardDetail">
               <img src={breedsById.image} className="cardImage" alt="" />
-              <h2 className="titleNameBreed">{breedsById.name}</h2>
-              <h5 className="h5tem">Temperaments</h5>
+              <div className="titlediv">
+                <h2 className="titleNameBreed">{breedsById.name}</h2>
+              </div>
+              <div className="titleTem">
+                <h5 className="h5tem">Temperaments</h5>
+              </div>
               <div className="allTemps">
                 {breedsById.temperaments?.map((t, k) => {
                   return (
                     <div key={k}>
                       {t.name ? (
-                        <p className="eachTemperament">{t.name}</p>
+                        <div className="eachTempDiv">
+                          <p className="eachTemperament">{t.name}</p>
+                        </div>
                       ) : (
-                        <p className="eachTemperament">{t}</p>
+                        <div className="eachTempDiv">
+                          <p className="eachTemperament">{t}</p>
+                        </div>
                       )}
                     </div>
                   );
@@ -91,6 +100,11 @@ const BreedDetails = () => {
                 </div>
               </div>
               <div>
+                <Link to={`/update/${id}`}>
+                  <button className="modifyCard">Modify</button>
+                </Link>
+              </div>
+              <div>
                 <button onClick={(e) => handleDelete(e)}>delete</button>
               </div>
             </div>
@@ -108,7 +122,7 @@ const BreedDetails = () => {
               <div className="titlediv">
                 <h2 className="titleNameBreed">{breedsById.name}</h2>
               </div>
-              <div>
+              <div className="titleTem">
                 <h5 className="h5tem">Temperaments</h5>
               </div>
 

@@ -3,6 +3,7 @@ import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import "./CreateBreed.scss";
 import { temperamentsFetch } from "../../features/TemperamentsSlice";
 import { addNewBreed } from "../../features/breedsSlice";
 
@@ -94,9 +95,9 @@ const CreateBreed = () => {
     return regex.test(value) || "Invalid image URL";
   };
   return (
-    <div>
-      <h2>Create new Breed</h2>
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+    <div className="containerForm">
+      <form action="" onSubmit={handleSubmit(onSubmit)} className="form-style">
+        <h2 className="h2Form">Create Breed</h2>
         <label htmlFor="" className="labelForm">
           Name :
         </label>

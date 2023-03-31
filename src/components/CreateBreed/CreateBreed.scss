@@ -1,0 +1,46 @@
+.containerForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:#EDC7B7;
+    width: 50%;
+    height: 60%;
+    padding: 2%;
+    border-radius: 10px;
+    margin-left: 20%;
+    margin-top: 5%;
+}
+.form-style{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #123C69;
+    width: 80%;
+    height: 80%;
+    border-radius: 10px;
+    padding: 3px;
+}
+.labelForm{
+        color: white;
+        font-size: medium;
+        width: 220px;
+        background-color:#AC3B61;
+        border-radius: 30px;
+        display: block;
+        padding: 3px;
+        margin: 3PX;
+}
+.inputForm {
+    border-radius: 10px;
+    padding: 8px;
+    background-color: rgb(255, 255, 255);
+    border-color: rgba(0, 140, 255, 0.66);
+    border: 2px;
+    margin-bottom: 10px;
+    margin-left: 11px;
+}
+.h2Form{
+    color: #ffffff;
+}

@@ -33,6 +33,14 @@ const Home = () => {
   return (
     <div>
       <div className="breedCards">
+        <SearchBar setCurrentPage={setCurrentPage} currentBreeds={breeds} />
+
+        <Filters
+          setCurrentPage={setCurrentPage}
+          setOrder={setOrder}
+          order={order}
+          currentBreeds={breeds}
+        />
         <CardsBreeds breeds={currentPosts} />
         <Pagination
           totalPosts={breeds.length}
@@ -40,12 +48,6 @@ const Home = () => {
           setPostPerpage={setPostPerPage}
           setCurrentPage={setCurrentPage}
           currentPage={currentPage}
-        />
-        <SearchBar setCurrentPage={setCurrentPage} />
-        <Filters
-          setCurrentPage={setCurrentPage}
-          setOrder={setOrder}
-          order={order}
         />
       </div>
     </div>
