@@ -6,6 +6,7 @@ import UpdateBreed from "./components/UpdateBreed/UpdateBreed";
 import CreateBreed from "./components/CreateBreed/CreateBreed";
 import NotFound from "./components/NotFound/NotFound";
 import Home from "./components/Home/Home";
+import Register from "./components/Register/Register";
 function App() {
   return (
     <Routes>
@@ -20,6 +21,7 @@ function App() {
         <Route path="update/:id" element={<UpdateBreed />} />
         <Route path="/not-found" element={<NotFound />} />
         <Route path="/*" element={<Navigate to="/not-found" />} />
+        <Route path="/register" element={<Register />} />
       </Route>
     </Routes>
   );
