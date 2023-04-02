@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import breedsReducer from "../features/breedsSlice";
 import TemperamentsReducer from "../features/TemperamentsSlice";
-import authReducer from "../features/authSlice";
+import authReducer, { loadUser } from "../features/authSlice";
 export const store = configureStore({
   reducer: {
     breeds: breedsReducer,
@@ -9,3 +9,4 @@ export const store = configureStore({
     auth: authReducer,
   },
 });
+store.dispatch(loadUser(null));

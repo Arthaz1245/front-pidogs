@@ -3,7 +3,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 const USER_URL = "http://localhost:5000/users";
 const initialState = {
-  token: localStorage.getItem("Item"),
+  token: localStorage.getItem("token"),
   name: "",
   email: "",
   _id: "",
@@ -30,10 +30,56 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async (user, { rejectWithValue }) => {
+    try {
+      const token = await axios.post(`${USER_URL}/login`, {
+        email: user.email,
+        password: user.password,
+      });
+      localStorage.setItem("token", token.data);
+      return token.data;
+    } catch (err) {
+      console.log(err.response.data);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    loadUser(state, action) {
+      const token = state.token;
+      if (token) {
+        const user = jwtDecode(token);
+        return {
+          ...state,
+          token,
+          name: user.name,
+          email: user.email,
+          _id: user._id,
+          userLoaded: true,
+        };
+      }
+    },
+    logoutUser(state, action) {
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        token: "",
+        name: "",
+        email: "",
+        _id: "",
+        registerStatus: "",
+        registerError: "",
+        loginStatus: "",
+        loginError: "",
+        userLoaded: false,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state, action) => {
       return { ...state, registerStatus: "pending" };
@@ -61,7 +107,33 @@ const authSlice = createSlice({
         registerError: action.payload,
       };
     });
+    builder.addCase(loginUser.pending, (state, action) => {
+      return { ...state, loginStatus: "pending" };
+    });
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      if (action.payload) {
+        const user = jwtDecode(action.payload);
+        return {
+          ...state,
+          token: action.payload,
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          _id: user._id,
+          loginStatus: "sucess",
+        };
+      } else {
+        return state;
+      }
+    });
+    builder.addCase(loginUser.rejected, (state, action) => {
+      return {
+        ...state,
+        loginStatus: "rejected",
+        loginError: action.payload,
+      };
+    });
   },
 });
-
+export const { loadUser, logoutUser } = authSlice.actions;
 export default authSlice.reducer;

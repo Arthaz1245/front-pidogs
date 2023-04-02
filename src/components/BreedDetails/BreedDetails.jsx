@@ -100,7 +100,7 @@ const BreedDetails = () => {
                 </div>
               </div>
               <div>
-                <Link to={`/update/${id}`}>
+                <Link to={`/home/update/${id}`}>
                   <button className="modifyCard">Modify</button>
                 </Link>
               </div>

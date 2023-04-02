@@ -15,7 +15,7 @@ const Card = ({
 }) => {
   return (
     <div className="breed-card">
-      <Link to={`/${id}`} className="Linkt">
+      <Link to={`/home/${id}`} className="Linkt">
         <img src={image} alt={name} className="breed-image" />
         <h2 className="breed-name">{name}</h2>
         <div className="breed-details">

@@ -4,12 +4,14 @@ import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import App from "./App";
 import { Provider } from "react-redux";
+// import { ToastContainer } from "react-toastify";
 import { store } from "./app/store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
+        {/* <ToastContainer /> */}
         <Routes>
           <Route path="/*" element={<App />} />
         </Routes>
