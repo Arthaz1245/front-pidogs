@@ -32,7 +32,7 @@ const Header = () => {
       ) : (
         <div className="auth">
           <button className="cart-login" onClick={() => navigate("/login")}>
-            Login to Check out
+            Login to create
           </button>
           <Link to={"/login"}> Login</Link>
           <Link to={"/register"}>Register</Link>

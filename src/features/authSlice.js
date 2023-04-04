@@ -12,6 +12,12 @@ const initialState = {
   loginStatus: "",
   loginError: "",
   userLoaded: false,
+  favorites: localStorage.getItem("favorites")
+    ? JSON.parse(localStorage.getItem("favorites"))
+    : [],
+
+  status: "idle",
+  error: null,
 };
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -46,6 +52,19 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+export const addFavoriteBreed = createAsyncThunk(
+  "auth/addFavoriteBreed",
+  async (payload) => {
+    try {
+      const response = await axios.put(`${USER_URL}/add-favorites`, payload);
+
+      return response.data;
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -132,6 +151,26 @@ const authSlice = createSlice({
         loginStatus: "rejected",
         loginError: action.payload,
       };
+    });
+    builder.addCase(addFavoriteBreed.pending, (state, action) => {
+      state.status = "loading";
+    });
+    builder.addCase(addFavoriteBreed.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      const breedId = action.meta.arg.breedId;
+      if (!state.favorites.includes(breedId)) {
+        state.favorites.push(breedId);
+
+        localStorage.setItem("favorites", JSON.stringify(state.favorites));
+      } else {
+        state.favorites = state.favorites.filter((id) => id !== breedId);
+
+        localStorage.setItem("favorites", JSON.stringify(state.favorites));
+      }
+    });
+    builder.addCase(addFavoriteBreed.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
     });
   },
 });

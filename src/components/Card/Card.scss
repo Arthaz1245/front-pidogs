@@ -38,6 +38,23 @@
     line-height: 1.5;
   
 }
+.btnFavorites{
+background-color:#EDC7B7;
+color: #AC3B61;
+border-radius: 50%;
+display: flex;
+flex-direction: column;
+border: 1px solid #AC3B61;
+}
+.btnFavoritesRemove{
+background-color: #AC3B61;
+    color: #EDC7B7;
+    position: relative;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #EDC7B7
+}
 
 .detail {
     margin-bottom: 10px;  text-align: center;
