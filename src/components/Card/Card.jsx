@@ -1,8 +1,10 @@
 import "./Card.scss";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addFavoriteBreed } from "../../features/authSlice";
-import { useState } from "react";
+import {
+  addFavoriteBreed,
+  removeFavoriteBreed,
+} from "../../features/authSlice";
 const Card = ({
   id,
   image,
@@ -17,13 +19,15 @@ const Card = ({
 }) => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  const active = auth.favorites.includes(id);
   const handleFavoriteClick = () => {
     const payload = {
       breedId: id,
       userId: auth._id,
     };
-    dispatch(addFavoriteBreed(payload));
+    const included = auth.favorites.includes(id);
+    included && dispatch(removeFavoriteBreed(payload));
+    !included && dispatch(addFavoriteBreed(payload));
   };
 
   return (
@@ -65,11 +69,7 @@ const Card = ({
           </div>
 
           <button
-            className={
-              auth.favorites.includes(id)
-                ? "btnFavoritesRemove"
-                : "btnFavorites"
-            }
+            className={active ? "btnFavoritesRemove" : "btnFavorites"}
             onClick={handleFavoriteClick}
           >
             +

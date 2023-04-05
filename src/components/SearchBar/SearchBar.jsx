@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import "./SearchBar.scss";
 import { useState } from "react";
-import swal from "sweetalert";
+
 import {
   // cleanBreeds,
   dogsFetch,
@@ -18,13 +18,8 @@ const SearchBar = ({ setCurrentPage, currentBreeds }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // dispatch(cleanBreeds());
-    const filterName = currentBreeds.filter((b) => b.name === name);
-    if (!filterName.length) {
-      await swal("Error, the name doesn't exist", "error");
-    } else {
-      dispatch(searchBreed(name));
-      setName("");
-    }
+    dispatch(searchBreed(name));
+    setName("");
   };
   const handleReload = (e) => {
     e.preventDefault();

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import swal from "sweetalert";
 import axios from "axios";
 const DOGS_URL = "http://localhost:5000/breeds";
 
@@ -55,7 +55,11 @@ export const searchBreed = createAsyncThunk(
   async (name) => {
     try {
       const response = await axios.get(`${DOGS_URL}?name=${name}`);
-      return response.data;
+      if (response.data.length) {
+        return response.data;
+      } else {
+        await swal("Breed Not Found", "The breed does not exist", "error");
+      }
     } catch (error) {
       return error.message;
     }

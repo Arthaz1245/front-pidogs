@@ -64,6 +64,18 @@ export const addFavoriteBreed = createAsyncThunk(
     }
   }
 );
+export const removeFavoriteBreed = createAsyncThunk(
+  "auth/removeFavoriteBreed",
+  async (payload) => {
+    try {
+      const response = await axios.put(`${USER_URL}/remove-favorites`, payload);
+
+      return response.data;
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -99,6 +111,7 @@ const authSlice = createSlice({
       };
     },
   },
+
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state, action) => {
       return { ...state, registerStatus: "pending" };
@@ -162,13 +175,25 @@ const authSlice = createSlice({
         state.favorites.push(breedId);
 
         localStorage.setItem("favorites", JSON.stringify(state.favorites));
-      } else {
+      }
+    });
+    builder.addCase(addFavoriteBreed.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+    });
+    builder.addCase(removeFavoriteBreed.pending, (state, action) => {
+      state.status = "loading";
+    });
+    builder.addCase(removeFavoriteBreed.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      const breedId = action.meta.arg.breedId;
+      if (state.favorites.includes(breedId)) {
         state.favorites = state.favorites.filter((id) => id !== breedId);
 
         localStorage.setItem("favorites", JSON.stringify(state.favorites));
       }
     });
-    builder.addCase(addFavoriteBreed.rejected, (state, action) => {
+    builder.addCase(removeFavoriteBreed.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     });
