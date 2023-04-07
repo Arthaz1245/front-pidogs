@@ -9,13 +9,15 @@ const Header = () => {
   const dispatch = useDispatch();
   return (
     <header className="headerStyle">
-      <div></div>
+      <div className="homeLink">
+        <Link to={"/home"}>
+          <span>Doggis</span>
+        </Link>
+      </div>
 
-      <Link to={"/home"}>
-        <span>Doggis</span>
-      </Link>
       {auth._id ? (
-        <div>
+        <div className="MenuBtn">
+          <Link to={"/favorites"}>Favorites</Link>
           <Link to={"/create"}>
             <button className="bntCreateBreed">Create Breed</button>
           </Link>

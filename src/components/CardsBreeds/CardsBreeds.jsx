@@ -6,6 +6,7 @@ const CardsBreeds = ({ breeds }) => {
     <div className="dog-breeds">
       {breeds.map((breed) => (
         <Card
+          breed={breed}
           key={breed.id}
           id={breed.createdInDB ? breed._id : breed.id}
           image={breed.image}

@@ -64,18 +64,7 @@ export const addFavoriteBreed = createAsyncThunk(
     }
   }
 );
-export const getFavoritesByUser = createAsyncThunk(
-  "breeds/getFavoritesByUser",
-  async (payload) => {
-    try {
-      const response = await axios.get(`${USER_URL}/favorites`, payload);
 
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
 export const removeFavoriteBreed = createAsyncThunk(
   "auth/removeFavoriteBreed",
   async (payload) => {
@@ -182,13 +171,16 @@ const authSlice = createSlice({
     });
     builder.addCase(addFavoriteBreed.fulfilled, (state, action) => {
       state.status = "succeeded";
-      const breedId = action.meta.arg.breedId;
+      const breed = action.meta.arg.breed;
+
+      const breedId = breed.id ? breed.id : breed._id;
       const isFavorites = state.favorites.filter(
         (f) => f.id === Number(breedId) || f.id === String(breedId)
       );
-      console.log(isFavorites);
-      if (!state.favorites.includes(breedId)) {
-        state.favorites.push(breedId);
+      console.log(state.favorites);
+
+      if (!isFavorites.length) {
+        state.favorites.push(breed);
 
         localStorage.setItem("favorites", JSON.stringify(state.favorites));
       }
@@ -202,29 +194,19 @@ const authSlice = createSlice({
     });
     builder.addCase(removeFavoriteBreed.fulfilled, (state, action) => {
       state.status = "succeeded";
-      const breedId = action.meta.arg.breedId;
-      const isFavorites = state.favorites.find(
+      const breed = action.meta.arg.breed;
+      const breedId = breed.id ? breed.id : breed._id;
+
+      const isFavorites = state.favorites.filter(
         (f) => f.id === Number(breedId) || f.id === String(breedId)
       );
-      console.log(isFavorites);
-      if (state.favorites.includes(breedId)) {
-        state.favorites = state.favorites.filter((id) => id !== breedId);
+      if (isFavorites.length) {
+        state.favorites = state.favorites.filter((f) => f.id !== breedId);
 
         localStorage.setItem("favorites", JSON.stringify(state.favorites));
       }
     });
     builder.addCase(removeFavoriteBreed.rejected, (state, action) => {
-      state.status = "failed";
-      state.error = action.error.message;
-    });
-    builder.addCase(getFavoritesByUser.pending, (state, action) => {
-      state.status = "loading";
-    });
-    builder.addCase(getFavoritesByUser.fulfilled, (state, action) => {
-      state.status = "succeeded";
-      state.favorites = action.payload;
-    });
-    builder.addCase(getFavoritesByUser.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     });

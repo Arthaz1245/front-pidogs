@@ -7,6 +7,7 @@ import {
 } from "../../features/authSlice";
 const Card = ({
   id,
+  breed,
   image,
   name,
   min_weight,
@@ -18,16 +19,21 @@ const Card = ({
   temperaments,
 }) => {
   const auth = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
-  const active = auth.favorites.includes(id);
+  const active = auth.favorites.filter((b) => b.id === breed.id);
+
   const handleFavoriteClick = () => {
     const payload = {
-      breedId: id,
       userId: auth._id,
+      breed: breed,
     };
-    const included = auth.favorites.includes(id);
-    included && dispatch(removeFavoriteBreed(payload));
-    !included && dispatch(addFavoriteBreed(payload));
+    const included = auth.favorites.filter((b) => b.id === breed.id);
+    // console.log(test.length);
+    // const included = auth.favorites.includes(breed);
+
+    included.length && dispatch(removeFavoriteBreed(payload));
+    !included.length && dispatch(addFavoriteBreed(payload));
   };
 
   return (
@@ -69,7 +75,7 @@ const Card = ({
           </div>
 
           <button
-            className={active ? "btnFavoritesRemove" : "btnFavorites"}
+            className={active.length ? "btnFavoritesRemove" : "btnFavorites"}
             onClick={handleFavoriteClick}
           >
             +
