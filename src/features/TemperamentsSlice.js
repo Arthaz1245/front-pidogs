@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import axios from "axios";
-const TEMPERAMENTS_URL = "http://localhost:5000/temperaments";
+const TEMPERAMENTS_URL = "backpidogs.onrender.com/temperaments";
+// const TEMPERAMENTS_URL = "http://localhost:5000/temperaments";
 
 const initialState = {
   temperaments: [],
