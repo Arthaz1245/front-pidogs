@@ -21,7 +21,10 @@ function App() {
         <Route path="home">
           <Route index element={<Home />} />
           <Route path=":id" element={<BreedDetails />} />
-          <Route path="update/:id" element={<UpdateBreed />} />
+          <Route
+            path="update/:id"
+            element={isAuth ? <UpdateBreed /> : <Navigate to="/login" />}
+          />
         </Route>
 
         <Route

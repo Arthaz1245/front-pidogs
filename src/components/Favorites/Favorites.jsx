@@ -1,26 +1,35 @@
 import "./Favorites.scss";
 import { removeFavoriteBreed } from "../../features/authSlice";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 const Favorites = () => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const handleDeleteFavorite = (id) => {
-    // const payload = {
-    //   breedId: id,
-    //   userId: auth._id,
-    // };
-    // dispatch(removeFavoriteBreed(payload));
-    console.log(auth);
+  const handleDeleteFavorite = (breed) => {
+    const payload = {
+      breed: breed,
+      userId: auth._id,
+    };
+    dispatch(removeFavoriteBreed(payload));
   };
   return (
-    <div>
+    <div className="favorite-breeds">
       {auth.favorites.length ? (
         <>
           {auth.favorites.map((favorite, index) => (
-            <div key={index}>
-              <h1>{favorite.name}</h1>
-              <img src={favorite.image} alt={favorite.name} />
-              <button onClick={() => handleDeleteFavorite(favorite._id)}>
+            <div key={index} className="favorite-breed">
+              <h1 className="nameh1">{favorite.name}</h1>
+              <Link to={`/home/${favorite.id}`}>
+                <img
+                  src={favorite.image}
+                  alt={favorite.name}
+                  className="img-favorite"
+                />
+              </Link>
+              <button
+                onClick={() => handleDeleteFavorite(favorite)}
+                className="btn-remove-favorites"
+              >
                 Delete
               </button>
             </div>

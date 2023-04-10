@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import "./SearchBar.scss";
 import { useState } from "react";
+import swal from "sweetalert";
 
 import {
   // cleanBreeds,
@@ -17,9 +18,18 @@ const SearchBar = ({ setCurrentPage, currentBreeds }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // dispatch(cleanBreeds());
-    dispatch(searchBreed(name));
-    setName("");
+    const isInit = currentBreeds.filter(
+      (b) => b.name.toLowerCase() === name.toLowerCase()
+    );
+    if (!isInit.length) {
+      await swal("Breed Not Found", "The breed does not exist", "error");
+      dispatch(dogsFetch());
+      setCurrentPage(1);
+      setName("");
+    } else {
+      dispatch(searchBreed(name));
+      setName("");
+    }
   };
   const handleReload = (e) => {
     e.preventDefault();

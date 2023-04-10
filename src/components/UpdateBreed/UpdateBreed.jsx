@@ -7,9 +7,10 @@ import { temperamentsFetch } from "../../features/TemperamentsSlice";
 import { updateBreed } from "../../features/breedsSlice";
 
 const UpdateBreed = () => {
-  const { _id } = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const breedTemperaments = useSelector(
     (state) => state.temperaments.temperaments
   );
@@ -59,7 +60,7 @@ const UpdateBreed = () => {
     if (nameFiltered.length) {
       await swal("Error, cannot be updated, name already exist", "error");
     } else {
-      dispatch(updateBreed(_id, data));
+      dispatch(updateBreed(id, data));
       alert(JSON.stringify(data));
       await swal("Success updated");
 
@@ -74,7 +75,7 @@ const UpdateBreed = () => {
         image: "",
         temperaments: [],
       });
-      navigate(`/${_id}`);
+      navigate(`/home`);
     }
   };
 
@@ -262,7 +263,7 @@ const UpdateBreed = () => {
         </div>
 
         <button type="submit" className="bntSubmit">
-          Create
+          Update
         </button>
       </form>
     </div>

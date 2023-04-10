@@ -177,7 +177,6 @@ const authSlice = createSlice({
       const isFavorites = state.favorites.filter(
         (f) => f.id === Number(breedId) || f.id === String(breedId)
       );
-      console.log(state.favorites);
 
       if (!isFavorites.length) {
         state.favorites.push(breed);

@@ -1,0 +1,29 @@
+.favorite-breeds{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+.favorite-breed{
+    width: 50%;
+    background-color: #123C69;
+    padding: 10px;
+    border: 1px solid rgb(255, 245, 245);
+    border-radius: 15px;
+
+}
+.nameh1{
+color: antiquewhite;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.img-favorite{
+    width: 200px;
+    border-radius: 15px;
+    
+}
+.btn-remove-favorites{
+    margin: 10px;
+    color: antiquewhite;
+    background-color: #AC3B61;
+
+}

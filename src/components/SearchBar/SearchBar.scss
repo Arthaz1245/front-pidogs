@@ -7,7 +7,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    background-color: #123C69;
+    border-top: 2mm ridge #f8f8f8;
+    border-bottom: 2mm ridge #f8f8f8;
+    
 }
 .search-bar-input {
     width: 200px;
@@ -15,13 +18,15 @@
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-right: 10px;
+    margin-right: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .search-bar-btn-submit {
     padding: 10px;
     font-size: 16px;
-    margin-right:  10px;
+    margin-right:  15px;
     background-color: #AC3B61;
     color: #fff;
     border: none;

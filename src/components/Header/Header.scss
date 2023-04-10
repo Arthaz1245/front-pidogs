@@ -6,7 +6,6 @@
         align-items: flex-start;
         background-color: #AC3B61;
         color: whitesmoke;
-        border-bottom: 5px solid #EDC7B7;
         position: relative;
         top: 0;
         
@@ -21,10 +20,55 @@
     display: flex;
     justify-content: space-between;
     width: 60%;
+    text-decoration: none;
+}
+.homeTitle{
+    text-decoration: none;
+    font-weight: 700;
+    background-color: #ffffff;
+    color: #123C69;
+    border: 2mm ridge #123C69;
 }
 .homeLink{
 width: 40%;
 justify-content: center;
 align-items: center;
 padding-left: 20%;
+}
+.auth{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+.bntCreateBreed{
+ border-radius: 5px;
+ background-color: #123C69;
+ color: #AC3B61;
+ font-weight: 600;
+ padding: 5px;
+}
+.favoritesLink{
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: 700;
+    background-color: #ef581c;
+    color: #EDC7B7;
+    text-decoration: none;
+}
+.loginLink{
+    border-radius: 5px;
+        padding: 5px;
+        font-weight: 700;
+        background-color: #0f0e0d;
+        color: #EDC7B7;
+        text-decoration: none;
+}
+.registerLink{
+border-radius: 5px;
+    padding: 5px;
+    font-weight: 700;
+    background-color: #0f0e0d;
+    color: #EDC7B7;
+    text-decoration: none;
+
 }
