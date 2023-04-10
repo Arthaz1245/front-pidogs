@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-// const DOGS_URL = "http://localhost:5000/breeds";
+//const DOGS_URL = "http://localhost:5000/breeds";
 const DOGS_URL = "backpidogs.onrender.com/breeds";
 const initialState = {
   breeds: [],
@@ -15,7 +15,7 @@ export const dogsFetch = createAsyncThunk("breeds/fetchDogs", async () => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 });
 export const dogsFetchById = createAsyncThunk(

@@ -32,7 +32,6 @@ export const registerUser = createAsyncThunk(
       localStorage.setItem("token", token.data);
       return token.data;
     } catch (err) {
-      console.log(err.response.data);
       return rejectWithValue(err.response.data);
     }
   }
@@ -48,7 +47,6 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("token", token.data);
       return token.data;
     } catch (err) {
-      console.log(err.response.data);
       return rejectWithValue(err.response.data);
     }
   }
@@ -61,7 +59,7 @@ export const addFavoriteBreed = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      console.log(err.response.data);
+      return err;
     }
   }
 );
@@ -74,7 +72,7 @@ export const removeFavoriteBreed = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      console.log(err.response.data);
+      return err.response.data;
     }
   }
 );
