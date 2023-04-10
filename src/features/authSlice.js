@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-const USER_URL = "http://localhost:5000/users";
+const USER_URL = "backpidogs.onrender.com/users";
+//const USER_URL = "http://localhost:5000/users";
 const initialState = {
   token: localStorage.getItem("token"),
   name: "",
