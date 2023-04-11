@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 //const DOGS_URL = "http://localhost:5000/breeds";
-const DOGS_URL = "backpidogs.onrender.com/breeds";
+const DOGS_URL = "https://backpidogs.onrender.com/breeds";
 const initialState = {
   breeds: [],
   allBreeds: [],
